@@ -8,6 +8,7 @@ class Game {
         this.missed = 0;
         this.phrases = phrases;
         this.activePhrase = null;
+        this.handleInteraction = this.handleInteraction.bind(this);
     }
 
     /**
@@ -37,16 +38,40 @@ class Game {
     /**
      * Handle Interaction
      * @desc Handles user interaction with a 'key' element
+     * @param {HTMLEvent} event - The `click` or `keyup` event object
      */
-    handleInteraction(selectedElem) {
+    handleInteraction(event) {
+        let elem = null;
+        if (event.type === 'keydown') {
+            // Escape if game is not active
+            if (document.getElementById('overlay').style.visibility === 'visible') return;
+            // Skip non single characters
+            if (!/^[a-z]{1}$/gi.test(event.key)) return;
+            // Find keyboard element
+            elem = Array.from(document.getElementsByClassName('key')).filter(button => button.innerText == event.key)[0];
+        } else {
+            elem = event.target;
+        }
+        // Limit click target to button and handle button interactions
+        if (elem.tagName !== 'BUTTON' && elem.className !== 'key') return;
+        // Select the element
+        this.selectElement(elem);
+    }
+
+    /**
+     * Select Element
+     * @desc Handles user interaction with a 'key' element
+     * @param {Object|String} selectedElem - The selected element or key
+     */
+    selectElement(elem) {
         // Disable the selected letter's onscreen keyboard button
-        selectedElem.disabled = true;
+        elem.disabled = true;
         // If the phrase does not include the guessed letter
-        if (this.activePhrase.checkLetter(selectedElem.innerText)) {
+        if (this.activePhrase.checkLetter(elem.innerText)) {
             // Mark selected element as chosen
-            selectedElem.className += ' chosen';
+            elem.className += ' chosen';
             // Reveal matched gameboard letter
-            this.activePhrase.showMatchedLetter(selectedElem.innerText);
+            this.activePhrase.showMatchedLetter(elem.innerText);
             // Check game status
             if (this.checkForWin()) {
                 // Player has won the game
@@ -54,7 +79,7 @@ class Game {
             }
         } else {
             // Mark selected element wrong
-            selectedElem.className += ' wrong';
+            elem.className += ' wrong';
             // Remove a life
             this.removeLife();
         }
@@ -91,7 +116,8 @@ class Game {
 
     /**
      * Game Over
-     * @desc Displays a final "win" or "loss" message
+     * @desc Displays the players game outcome and resets game elements
+     * @param {Boolean} didWin - (optional) Optional game outcome determiner
      */
     gameOver(didWin=false) {
         // Show the original start screen overlay styled with either the win or lose CSS class

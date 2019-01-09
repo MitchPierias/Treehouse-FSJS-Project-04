@@ -204,3 +204,12 @@ button {
 /******************
  ADDITIONAL STYLES
 *******************/
+
+.letter {
+  transition: transform 0.8s, color 0.5s;
+  transform: rotateY(180deg);
+}
+
+.show {
+  transform: rotateY(0deg);
+}

@@ -22,7 +22,7 @@ class Game {
         const overlayElem = document.getElementById('overlay');
         overlayElem.style.visibility = 'hidden';
         this.activePhrase = this.getRandomPhrase();
-        this.activePhrase.addPhraseToDisplay(document.getElementById('phrase').querySelector('ul'));
+        this.activePhrase.addPhraseToDisplay();
     }
     
     /**
@@ -133,5 +133,7 @@ class Game {
         });
         // Reset lives
         Array.from(document.querySelectorAll('img[src="images/lostHeart.png"]')).forEach(elem => elem.setAttribute('src','images/liveHeart.png'));
+        // Reset phrase dispaly
+        this.activePhrase.removePhraseFromDisplay();
     }
 }

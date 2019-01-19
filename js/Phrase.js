@@ -13,7 +13,8 @@ class Phrase {
      * @desc Adds the phrase to the gameboard
      */
     addPhraseToDisplay(elem) {
-        // Clear existing
+        // Get the phrase elements and clear existing chars
+        elem = elem || document.getElementById('phrase').querySelector('ul')
         elem.innerHTML = "";
         // Build and display character elements
         this.phrase.split('').forEach(char => {
@@ -22,6 +23,13 @@ class Phrase {
             letter.className = (/\s/gi.test(char)) ? 'space' : `hide letter ${char}`;
             elem.appendChild(letter);
         });
+    }
+
+    removePhraseFromDisplay() {
+        // Get character elements
+        const elem = document.getElementById('phrase').querySelector('ul')
+        // Remove from DOM
+        elem.innerHTML = "";
     }
 
     /**

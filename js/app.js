@@ -18,5 +18,3 @@ document.getElementById('btn__reset').addEventListener('click', event => {
 document.getElementById('qwerty').addEventListener('click', game.handleInteraction);
 // Handle keyboard input
 document.addEventListener("keydown", game.handleInteraction, false);
-
-// App styles have been personalized and changes have been noted in the README.md file and the project submission notes

@@ -31,7 +31,7 @@ class Game {
      * @returns {Phrase} Initialized Phrase object
      */
     getRandomPhrase() {
-        const randomIndex = Math.floor(Math.random() * (this.phrases.length-1));
+        const randomIndex = Math.floor(Math.random() * this.phrases.length);
         return new Phrase(this.phrases[randomIndex]);
     }
 
